@@ -6,9 +6,10 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      setUser(JSON.parse(localStorage.getItem('user')));
+    const storedUser = localStorage.getItem('user');
+    const storedToken = localStorage.getItem('token');
+    if (storedUser && storedToken) {
+      setUser(JSON.parse(storedUser));
     }
   }, []);
 

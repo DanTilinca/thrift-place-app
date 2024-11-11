@@ -1,4 +1,3 @@
-// client/src/components/AddProduct.js
 import React, { useState, useContext } from 'react';
 import { createProduct } from '../services/api';
 import AuthContext from '../context/AuthContext';
