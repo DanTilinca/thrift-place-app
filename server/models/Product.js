@@ -6,7 +6,7 @@ const productSchema = new mongoose.Schema({
   price: { type: Number, required: true },
   size: { type: String, required: true },
   condition: { type: String, required: true },
-  image: { type: String, default: '' },
+  images: [{ type: String }],
   likes: { type: Number, default: 0 },
   seller: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   createdAt: { type: Date, default: Date.now },

@@ -2,7 +2,7 @@ import Product from '../models/Product.js';
 
 // Create a new product
 export const createProduct = async (req, res) => {
-  const { title, description, price, size, condition, image } = req.body;
+  const { title, description, price, size, condition, images } = req.body;
 
   try {
     const newProduct = await Product.create({
@@ -11,8 +11,10 @@ export const createProduct = async (req, res) => {
       price,
       size,
       condition,
-      image,
+      images,
+      likes: 0,
       seller: req.userId,
+      createdAt: new Date(),
     });
 
     res.status(201).json(newProduct);
