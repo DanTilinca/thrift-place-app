@@ -62,3 +62,17 @@ export const getAllProducts = async (req, res) => {
     res.status(500).json({ message: 'Unable to fetch products' });
   }
 };
+
+// Fetch a single product by ID
+export const getProductById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const product = await Product.findById(id).populate('seller', 'username email');
+    if (!product) return res.status(404).json({ message: 'Product not found' });
+
+    res.status(200).json(product);
+  } catch (error) {
+    res.status(500).json({ message: 'Unable to fetch product details' });
+  }
+};

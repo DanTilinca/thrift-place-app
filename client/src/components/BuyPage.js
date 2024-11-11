@@ -1,5 +1,5 @@
-// client/src/components/BuyPage.js
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { fetchProducts } from '../services/api';
 
 const BuyPage = () => {
@@ -10,17 +10,18 @@ const BuyPage = () => {
   const [size, setSize] = useState('');
   const [condition, setCondition] = useState('');
   const [sort, setSort] = useState('');
+  const navigate = useNavigate();
 
   // Fetch products with filters
-  const getProducts = async () => {
+  const getProducts = useCallback(async () => {
     const params = { search, minPrice, maxPrice, size, condition, sort };
     const response = await fetchProducts(params);
     setProducts(response.data);
-  };
-
+  }, [search, minPrice, maxPrice, size, condition, sort]);
+  
   useEffect(() => {
     getProducts();
-  }, [search, minPrice, maxPrice, size, condition, sort]);
+  }, [getProducts]);
 
   return (
     <div className="container mx-auto p-6">
@@ -107,6 +108,7 @@ const BuyPage = () => {
           <div
             key={product._id}
             className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
+            onClick={() => navigate(`/products/${product._id}`)}
           >
             {/* Product Image */}
             {product.images && product.images.length > 0 ? (
