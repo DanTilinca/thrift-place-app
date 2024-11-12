@@ -2,7 +2,7 @@ import Product from '../models/Product.js';
 
 // Create a new product
 export const createProduct = async (req, res) => {
-  const { title, description, price, size, condition, images } = req.body;
+  const { title, description, price, size, condition, images, category, seller } = req.body;
 
   try {
     const newProduct = await Product.create({
@@ -12,14 +12,16 @@ export const createProduct = async (req, res) => {
       size,
       condition,
       images,
+      seller,
+      category,
       likes: 0,
-      seller: req.userId,
       createdAt: new Date(),
     });
 
     res.status(201).json(newProduct);
   } catch (error) {
-    res.status(500).json({ message: 'Unable to create product' });
+    console.error('Error creating product in MongoDB:', error);
+    res.status(500).json({ message: 'Unable to create product', error: error.message });
   }
 };
 

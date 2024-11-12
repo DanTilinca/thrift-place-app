@@ -8,7 +8,8 @@ const productSchema = new mongoose.Schema({
   condition: { type: String, required: true },
   images: [{ type: String }],
   likes: { type: Number, default: 0 },
-  seller: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  seller: { type: String, required: true },
+  category: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
 });
 

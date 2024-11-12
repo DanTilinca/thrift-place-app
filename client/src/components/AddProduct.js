@@ -9,6 +9,7 @@ const AddProduct = () => {
     price: '',
     size: '',
     condition: '',
+    category: '',
   });
   const [images, setImages] = useState([]);
   const [previews, setPreviews] = useState([]);
@@ -65,13 +66,13 @@ const AddProduct = () => {
     const productData = {
       ...formData,
       images,
-      seller: user._id,
+      seller: user.username,
     };
 
     try {
       await createProduct(productData);
       alert('Product added successfully!');
-      setFormData({ title: '', description: '', price: '', size: '', condition: '' });
+      setFormData({ title: '', description: '', price: '', size: '', condition: '', category: '' });
       setImages([]);
       setPreviews([]);
     } catch (error) {
@@ -138,6 +139,27 @@ const AddProduct = () => {
               onChange={handleChange}
               required
             />
+          </div>
+          <div className="mb-4">
+            <select
+              name="category"
+              className="w-full p-2 border rounded-md focus:outline-none"
+              value={formData.category}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select Category</option>
+              <option value="Dress">Dress</option>
+              <option value="Skirt">Skirt</option>
+              <option value="Shirt">Shirt</option>
+              <option value="Tshirt">Tshirt</option>
+              <option value="Jacket">Jacket</option>
+              <option value="Pants">Pants</option>
+              <option value="Shorts">Shorts</option>
+              <option value="Coat">Coat</option>
+              <option value="Sweater">Sweater</option>
+              <option value="Blouse">Blouse</option>
+            </select>
           </div>
           <div className="mb-4">
             <input
