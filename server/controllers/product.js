@@ -27,7 +27,7 @@ export const createProduct = async (req, res) => {
 
 // Fetch all products with search, filters, and sorting
 export const getAllProducts = async (req, res) => {
-  const { search, minPrice, maxPrice, size, condition, sort } = req.query;
+  const { search, minPrice, maxPrice, size, condition, sort, category, page = 1, limit = 10 } = req.query;
 
   try {
     // Build the query object
@@ -51,15 +51,20 @@ export const getAllProducts = async (req, res) => {
     // Filter by condition
     if (condition) query.condition = condition;
 
+    // Filter by category
+    if (category) query.category = category;
+
     // Sorting options
     let sortOption = {};
     if (sort === 'price_asc') sortOption.price = 1;
     if (sort === 'price_desc') sortOption.price = -1;
 
-    // Fetch products based on query and sort options
-    const products = await Product.find(query).sort(sortOption);
+    // Pagination
+    const skip = (page - 1) * limit;
+    const total = await Product.countDocuments(query);
+    const products = await Product.find(query).sort(sortOption).skip(skip).limit(parseInt(limit));
 
-    res.status(200).json(products);
+    res.status(200).json({ products, total });
   } catch (error) {
     res.status(500).json({ message: 'Unable to fetch products' });
   }

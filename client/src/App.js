@@ -9,8 +9,8 @@ import Footer from './components/Footer';
 // main pages
 import Login from './components/Login';
 import Register from './components/Register';
+import LandingPage from './components/LandingPage';
 import AddProduct from './components/AddProduct';
-import ProductList from './components/ProductList';
 import Dashboard from './components/Dashboard';
 import Profile from './components/Profile';
 import BuyPage from './components/BuyPage';
@@ -20,7 +20,6 @@ import ProductDetails from './components/ProductDetails';
 import About from './components/About';
 import Contact from './components/Contact';
 import PrivacyPolicy from './components/PrivacyPolicy';
-import TermsOfService from './components/TermsOfService';
 
 function App() {
   return (
@@ -29,7 +28,7 @@ function App() {
         <Header />
         <div className="flex-glow">
           <Routes>
-            <Route path="/" element={<ProductList />} />
+            <Route path="/" element={<LandingPage />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/add-product" element={<AddProduct />} />
@@ -40,7 +39,6 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="/terms-of-service" element={<TermsOfService />} />
           </Routes>
         </div>
         <Footer />

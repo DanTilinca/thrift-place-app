@@ -9,19 +9,35 @@ const BuyPage = () => {
   const [maxPrice, setMaxPrice] = useState('');
   const [size, setSize] = useState('');
   const [condition, setCondition] = useState('');
+  const [category, setCategory] = useState('');
   const [sort, setSort] = useState('');
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [total, setTotal] = useState(0);
   const navigate = useNavigate();
 
   // Fetch products with filters
   const getProducts = useCallback(async () => {
-    const params = { search, minPrice, maxPrice, size, condition, sort };
+    const params = { search, minPrice, maxPrice, size, condition, sort, category, page, limit };
     const response = await fetchProducts(params);
-    setProducts(response.data);
-  }, [search, minPrice, maxPrice, size, condition, sort]);
-  
+    setProducts(response.data.products);
+    setTotal(response.data.total);
+  }, [search, minPrice, maxPrice, size, condition, sort, category, page, limit]);
+
   useEffect(() => {
     getProducts();
   }, [getProducts]);
+
+  // Handle page change
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+  };
+
+  // Handle limit change
+  const handleLimitChange = (e) => {
+    setLimit(parseInt(e.target.value));
+    setPage(1);
+  };
 
   return (
     <div className="container mx-auto p-6">
@@ -39,7 +55,7 @@ const BuyPage = () => {
       </div>
 
       {/* Filter Panel */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
         <div>
           <label className="block mb-2">Min Price</label>
           <input
@@ -86,6 +102,24 @@ const BuyPage = () => {
             <option value="Used">Used</option>
           </select>
         </div>
+        <div>
+          <label className="block mb-2">Category</label>
+          <select
+            className="w-full p-2 border rounded-md"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            <option value="">All Categories</option>
+            <option value="Dress">Dress</option>
+            <option value="Skirt">Skirt</option>
+            <option value="Shirt">Shirt</option>
+            <option value="Tshirt">Tshirt</option>
+            <option value="Jacket">Jacket</option>
+            <option value="Pants">Pants</option>
+            <option value="Shorts">Shorts</option>
+            <option value="Coat">Coat</option>
+          </select>
+        </div>
       </div>
 
       {/* Sort Options */}
@@ -102,33 +136,42 @@ const BuyPage = () => {
         </select>
       </div>
 
+      {/* Pagination Controls */}
+      <div className="flex justify-between items-center mb-6">
+        <div>
+          <label>Products per page:</label>
+          <select className="ml-2 p-2 border rounded-md" value={limit} onChange={handleLimitChange}>
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+          </select>
+        </div>
+        <div>
+          <button onClick={() => handlePageChange(page - 1)} disabled={page === 1}>
+            Previous
+          </button>
+          <span className="mx-4">Page {page}</span>
+          <button onClick={() => handlePageChange(page + 1)} disabled={page * limit >= total}>
+            Next
+          </button>
+        </div>
+      </div>
+
       {/* Product List */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {products.map((product) => (
           <div
             key={product._id}
-            className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
+            className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer"
             onClick={() => navigate(`/products/${product._id}`)}
           >
-            {/* Product Image */}
-            {product.images && product.images.length > 0 ? (
-              <img
-                src={product.images[0]}
-                alt={product.title}
-                className="w-full h-48 object-cover rounded-md mb-4"
-              />
-            ) : (
-              <div className="w-full h-48 bg-gray-200 rounded-md mb-4 flex items-center justify-center text-gray-500">
-                No Image Available
-              </div>
-            )}
-
-            {/* Product Details */}
+            <img
+              src={product.images[0]}
+              alt={product.title}
+              className="w-full h-48 object-cover rounded-md mb-4"
+            />
             <h3 className="text-xl font-semibold mb-2">{product.title}</h3>
-            <p className="text-gray-700 mb-2">{product.description}</p>
             <p className="text-gray-900 font-bold mb-2">${product.price}</p>
-            <p className="text-sm text-gray-500">Size: {product.size}</p>
-            <p className="text-sm text-gray-500">Condition: {product.condition}</p>
           </div>
         ))}
       </div>

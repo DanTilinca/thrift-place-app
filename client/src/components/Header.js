@@ -1,5 +1,4 @@
-// client/src/components/Header.js
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 
@@ -13,10 +12,32 @@ const Header = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (isDropdownOpen && !e.target.closest('.dropdown-button')) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, [isDropdownOpen]);
+
   // Handle logout
   const handleLogout = () => {
     logout();
     navigate('/login');
+  };
+
+  // Handle Sell button click
+  const handleSellClick = () => {
+    if (!user) {
+      alert('Please log in to start selling!');
+      navigate('/login');
+    } else {
+      navigate('/dashboard');
+    }
   };
 
   return (
@@ -29,21 +50,27 @@ const Header = () => {
 
         {/* Navigation Links */}
         <nav className="flex gap-4">
-          <Link to="/products" className="hover:underline">
+          <Link
+            to="/products"
+            className="py-2 px-4 bg-white text-blue-500 rounded-lg font-semibold hover:bg-gray-200 transition"
+          >
             Buy
           </Link>
-          <Link to="/dashboard" className="hover:underline">
+          <button
+            onClick={handleSellClick}
+            className="py-2 px-4 bg-white text-blue-500 rounded-lg font-semibold hover:bg-gray-200 transition"
+          >
             Sell
-          </Link>
+          </button>
         </nav>
 
         {/* User Profile Section */}
         {user ? (
-          <div className="relative">
+          <div className="relative dropdown-button">
             {/* User Avatar */}
             <button
               onClick={toggleDropdown}
-              className="w-10 h-10 bg-white text-blue-500 rounded-full flex items-center justify-center font-bold"
+              className="w-10 h-10 bg-white text-blue-500 rounded-full flex items-center justify-center font-bold border border-black"
             >
               {user.username.charAt(0).toUpperCase()}
             </button>
@@ -73,7 +100,10 @@ const Header = () => {
             )}
           </div>
         ) : (
-          <Link to="/login" className="hover:underline">
+          <Link
+            to="/login"
+            className="py-2 px-4 bg-white text-blue-500 rounded-lg font-semibold hover:bg-gray-200 transition"
+          >
             Log In
           </Link>
         )}
