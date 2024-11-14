@@ -1,0 +1,14 @@
+To Do:
+
+- Chat System with offer price functionality
+- Seller dashboard with active listings
+- Edit your own products
+- Delete your own products
+- Option to buy items
+- Add items to favourites
+
+
+Bugs to fix:
+
+- (DONE) Product page not showing seller correctly
+- Login not redirecting to homepage after logging in
