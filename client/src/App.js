@@ -15,6 +15,7 @@ import Dashboard from './components/Dashboard';
 import Profile from './components/Profile';
 import BuyPage from './components/BuyPage';
 import ProductDetails from './components/ProductDetails';
+import EditProduct from './components/EditProduct';
 
 //footer pages
 import About from './components/About';
@@ -34,6 +35,7 @@ function App() {
             <Route path="/add-product" element={<AddProduct />} />
             <Route path="/products" element={<BuyPage />} />
             <Route path="/products/:id" element={<ProductDetails />} />
+            <Route path="/edit-product/:id" element={<EditProduct />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/about" element={<About />} />

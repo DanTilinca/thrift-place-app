@@ -84,7 +84,48 @@ export const getProductById = async (req, res) => {
   }
 };
 
+// Update product by ID
+export const updateProduct = async (req, res) => {
+  const { id } = req.params;
+  const { title, description, price } = req.body;
 
+  try {
+    const updatedProduct = await Product.findByIdAndUpdate(
+      id,
+      { title, description, price },
+      { new: true }
+    );
+
+    if (!updatedProduct) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+
+    res.status(200).json(updatedProduct);
+  } catch (error) {
+    console.error('Error updating product:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+// Delete product by ID
+export const deleteProduct = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const deletedProduct = await Product.findByIdAndDelete(id);
+
+    if (!deletedProduct) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+
+    res.status(200).json({ message: 'Product deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting product:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+// Fetch products by seller
 export const getProductsBySeller = async (req, res) => {
   const { username } = req.body;
 
