@@ -83,3 +83,26 @@ export const getProductById = async (req, res) => {
     res.status(500).json({ message: 'Unable to fetch product details' });
   }
 };
+
+
+export const getProductsBySeller = async (req, res) => {
+  const { username } = req.body;
+
+  try {
+    if (!username) {
+      return res.status(400).json({ message: 'Username is required' });
+    }
+
+    // Query the database using the username from the request body
+    const products = await Product.find({ seller: username });
+
+    if (!products || products.length === 0) {
+      return res.status(404).json({ message: 'No products found for this seller' });
+    }
+
+    res.status(200).json({ products });
+  } catch (error) {
+    console.error('Error fetching products by seller:', error.message);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};

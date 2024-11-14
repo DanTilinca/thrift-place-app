@@ -1,5 +1,5 @@
 import express from 'express';
-import { createProduct, getAllProducts, getProductById } from '../controllers/product.js';
+import { createProduct, getAllProducts, getProductById, getProductsBySeller } from '../controllers/product.js';
 
 const router = express.Router();
 
@@ -11,5 +11,7 @@ router.get('/', getAllProducts);
 
 // Route to fetch a single product by id
 router.get('/:id', getProductById);
+
+router.post('/seller', getProductsBySeller);
 
 export default router;

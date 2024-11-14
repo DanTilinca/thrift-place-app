@@ -7,3 +7,9 @@ export const loginUser = (userData) => API.post('/auth/login', userData);
 export const createProduct = (productData) => API.post('/products', productData);
 export const fetchProducts = (params) => API.get('/products', { params });
 export const fetchProductById = (id) => API.get(`/products/${id}`);
+export const fetchProductsBySeller = (username) =>
+    API.post('/products/seller', { username }, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
