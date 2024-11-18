@@ -1,5 +1,5 @@
-// client/src/components/Register.js
 import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import axios from 'axios';
 
@@ -7,6 +7,7 @@ const Register = () => {
   const [formData, setFormData] = useState({ username: '', email: '', password: '' });
   const [error, setError] = useState('');
   const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   // Handle input changes
   const handleChange = (e) => {
@@ -28,6 +29,9 @@ const Register = () => {
       // Log in the user after successful registration
       login(response.data.user, response.data.token);
       alert('Registration successful!');
+
+      // Redirect to the landing page
+      navigate('/');
     } catch (error) {
       console.error('Registration error:', error.response?.data || error.message);
       setError(error.response?.data?.message || 'An error occurred. Please try again.');

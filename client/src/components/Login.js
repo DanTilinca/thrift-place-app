@@ -1,5 +1,5 @@
-// client/src/components/Login.js
 import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import axios from 'axios';
 
@@ -7,6 +7,7 @@ const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
   const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   // Handle form input changes
   const handleChange = (e) => {
@@ -34,6 +35,9 @@ const Login = () => {
       console.log('Login response:', response.data);
       login(response.data.user, response.data.token);
       alert('Login successful!');
+
+      // Redirect to the landing page
+      navigate('/');
     } catch (error) {
       console.error('Login error:', error.response?.data || error.message);
       setError(error.response?.data?.message || 'An error occurred. Please try again.');
