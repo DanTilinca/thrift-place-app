@@ -10,3 +10,4 @@ export const fetchProductById = (id) => API.get(`/products/${id}`);
 export const updateProduct = (id, productData) => API.put(`/products/${id}`, productData);
 export const deleteProduct = (id) => API.delete(`/products/${id}`);
 export const fetchProductsBySeller = (username) => API.post('/products/seller', { username });
+export const purchaseProduct = (id) => API.delete(`/products/purchase/${id}`);

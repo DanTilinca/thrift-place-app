@@ -16,6 +16,7 @@ import Profile from './components/Profile';
 import BuyPage from './components/BuyPage';
 import ProductDetails from './components/ProductDetails';
 import EditProduct from './components/EditProduct';
+import PurchasePage from './components/PurchasePage';
 
 //footer pages
 import About from './components/About';
@@ -41,6 +42,7 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/purchase/:id" element={<PurchasePage />} />
           </Routes>
         </div>
         <Footer />

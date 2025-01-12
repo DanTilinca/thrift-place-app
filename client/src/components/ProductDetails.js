@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchProductById } from '../services/api';
+import { useNavigate } from 'react-router-dom';
 
 const ProductDetails = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   // Fetch product details
   useEffect(() => {
@@ -110,7 +112,10 @@ const ProductDetails = () => {
             <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
               Add to Favorites
             </button>
-            <button className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">
+            <button 
+              className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+              onClick={() => navigate(`/purchase/${product._id}`)}
+            >
               Buy Now
             </button>
           </div>

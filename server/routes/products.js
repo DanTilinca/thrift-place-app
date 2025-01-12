@@ -1,5 +1,5 @@
 import express from 'express';
-import { createProduct, getAllProducts, getProductById, updateProduct, deleteProduct, getProductsBySeller } from '../controllers/product.js';
+import { createProduct, getAllProducts, getProductById, updateProduct, deleteProduct, getProductsBySeller, purchaseProduct } from '../controllers/product.js';
 
 const router = express.Router();
 
@@ -20,5 +20,8 @@ router.delete('/:id', deleteProduct);
 
 // Route to fetch products by seller
 router.post('/seller', getProductsBySeller);
+
+// Route to delete product by id after purchase
+router.delete('/purchase/:id', purchaseProduct);
 
 export default router;
