@@ -95,6 +95,22 @@ const Header = () => {
                       Logout
                     </button>
                   </li>
+                  <li>
+                    <button
+                      onClick={() => navigate('/history/sell')}
+                      className="block w-full px-4 py-2 text-left text-blue-500 hover:bg-gray-100"
+                    >
+                      Sell History
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => navigate('/history/buy')}
+                      className="block w-full px-4 py-2 text-left text-blue-500 hover:bg-gray-100"
+                    >
+                      Buy History
+                    </button>
+                  </li>
                 </ul>
               </div>
             )}

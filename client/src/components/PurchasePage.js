@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import AuthContext from '../context/AuthContext';
 import { fetchProductById, purchaseProduct } from '../services/api';
 
 const PurchasePage = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
+  const { user } = useContext(AuthContext); // Get the current logged-in user
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -41,10 +43,18 @@ const PurchasePage = () => {
       return;
     }
 
+    if (!user) {
+      alert('You must be logged in to complete the purchase.');
+      return;
+    }
+
     try {
-      await purchaseProduct(id);
+      // Send the purchase request to the backend
+      await purchaseProduct(id, user.username); // Pass buyer's username to the backend
       alert('Purchase completed successfully!');
-      navigate('/'); // Redirect to the landing page or a confirmation page
+
+      // Redirect to the Buy History page after purchase
+      navigate('/history/buy');
     } catch (error) {
       console.error('Error completing purchase:', error);
       alert('Failed to complete purchase. Please try again.');

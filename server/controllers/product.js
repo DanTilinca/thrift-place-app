@@ -15,6 +15,7 @@ export const createProduct = async (req, res) => {
       seller,
       category,
       likes: 0,
+      buyer: null,
       createdAt: new Date(),
     });
 
@@ -148,12 +149,18 @@ export const getProductsBySeller = async (req, res) => {
   }
 };
 
-// Delete product by ID (purchase completion)
+// Add buyer field to a product after purchase
 export const purchaseProduct = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.params; // Product ID
+  const { buyer } = req.body; // Buyer's username
 
   try {
-    const product = await Product.findByIdAndDelete(id);
+    // Update the product with the buyer's username
+    const product = await Product.findByIdAndUpdate(
+      id,
+      { buyer }, // Set the buyer field
+      { new: true } // Return the updated document
+    );
 
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
@@ -163,5 +170,31 @@ export const purchaseProduct = async (req, res) => {
   } catch (error) {
     console.error('Error during purchase:', error);
     res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+// Fetch sell history for a user
+export const getSellHistory = async (req, res) => {
+  const { username } = req.query;
+
+  try {
+    const products = await Product.find({ seller: username, buyer: { $ne: null } });
+    res.status(200).json(products);
+  } catch (error) {
+    console.error('Error fetching sell history:', error);
+    res.status(500).json({ message: 'Failed to fetch sell history' });
+  }
+};
+
+// Fetch buy history for a user
+export const getBuyHistory = async (req, res) => {
+  const { username } = req.query;
+
+  try {
+    const products = await Product.find({ buyer: username });
+    res.status(200).json(products);
+  } catch (error) {
+    console.error('Error fetching buy history:', error);
+    res.status(500).json({ message: 'Failed to fetch buy history' });
   }
 };

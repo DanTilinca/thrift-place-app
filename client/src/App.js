@@ -17,6 +17,8 @@ import BuyPage from './components/BuyPage';
 import ProductDetails from './components/ProductDetails';
 import EditProduct from './components/EditProduct';
 import PurchasePage from './components/PurchasePage';
+import SellHistory from './components/SellHistory';
+import BuyHistory from './components/BuyHistory';
 
 //footer pages
 import About from './components/About';
@@ -43,6 +45,8 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/purchase/:id" element={<PurchasePage />} />
+            <Route path="/history/sell" element={<SellHistory />} />
+            <Route path="/history/buy" element={<BuyHistory />} />
           </Routes>
         </div>
         <Footer />

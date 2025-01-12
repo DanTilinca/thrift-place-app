@@ -1,5 +1,5 @@
 import express from 'express';
-import { createProduct, getAllProducts, getProductById, updateProduct, deleteProduct, getProductsBySeller, purchaseProduct } from '../controllers/product.js';
+import { createProduct, getAllProducts, getProductById, updateProduct, deleteProduct, getProductsBySeller, purchaseProduct, getSellHistory, getBuyHistory } from '../controllers/product.js';
 
 const router = express.Router();
 
@@ -21,7 +21,13 @@ router.delete('/:id', deleteProduct);
 // Route to fetch products by seller
 router.post('/seller', getProductsBySeller);
 
-// Route to delete product by id after purchase
-router.delete('/purchase/:id', purchaseProduct);
+// Route to modify product by id after purchase
+router.put('/purchase/:id', purchaseProduct);
+
+// Fetch a user Sell history
+router.get('/history/sell', getSellHistory);
+
+// Fetch a user Buy history
+router.get('/history/buy', getBuyHistory);
 
 export default router;
