@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState, useContext } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { fetchProductById } from '../services/api';
-import { useNavigate } from 'react-router-dom';
+import AuthContext from '../context/AuthContext';
 
 const ProductDetails = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
   // Fetch product details
@@ -46,6 +47,9 @@ const ProductDetails = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+  // Check if the product belongs to the logged-in user
+  const isOwnProduct = user && user.username === product.seller;
 
   return (
     <div className="container mx-auto p-6">
@@ -112,11 +116,16 @@ const ProductDetails = () => {
             <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
               Add to Favorites
             </button>
-            <button 
-              className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
-              onClick={() => navigate(`/purchase/${product._id}`)}
+            <button
+              className={`px-4 py-2 rounded-lg transition ${
+                isOwnProduct
+                  ? 'bg-gray-400 text-white cursor-not-allowed'
+                  : 'bg-green-500 text-white hover:bg-green-600'
+              }`}
+              onClick={() => !isOwnProduct && navigate(`/purchase/${product._id}`)}
+              disabled={isOwnProduct}
             >
-              Buy Now
+              {isOwnProduct ? 'You Own This Product' : 'Buy Now'}
             </button>
           </div>
         </div>

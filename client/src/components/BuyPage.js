@@ -12,7 +12,7 @@ const BuyPage = () => {
   const [category, setCategory] = useState('');
   const [sort, setSort] = useState('');
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(9);
   const [total, setTotal] = useState(0);
   const navigate = useNavigate();
 
@@ -141,9 +141,9 @@ const BuyPage = () => {
         <div>
           <label>Products per page:</label>
           <select className="ml-2 p-2 border rounded-md" value={limit} onChange={handleLimitChange}>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
+            <option value="9">9</option>
+            <option value="18">18</option>
+            <option value="27">27</option>
           </select>
         </div>
         <div>

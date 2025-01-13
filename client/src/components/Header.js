@@ -89,14 +89,6 @@ const Header = () => {
                   </li>
                   <li>
                     <button
-                      onClick={handleLogout}
-                      className="block w-full px-4 py-2 text-left text-red-500 hover:bg-gray-100"
-                    >
-                      Logout
-                    </button>
-                  </li>
-                  <li>
-                    <button
                       onClick={() => navigate('/history/sell')}
                       className="block w-full px-4 py-2 text-left text-blue-500 hover:bg-gray-100"
                     >
@@ -109,6 +101,14 @@ const Header = () => {
                       className="block w-full px-4 py-2 text-left text-blue-500 hover:bg-gray-100"
                     >
                       Buy History
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={handleLogout}
+                      className="block w-full px-4 py-2 text-left text-red-500 hover:bg-gray-100"
+                    >
+                      Logout
                     </button>
                   </li>
                 </ul>
