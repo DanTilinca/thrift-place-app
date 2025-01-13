@@ -26,13 +26,13 @@ export const createProduct = async (req, res) => {
   }
 };
 
-// Fetch all products with search, filters, and sorting
+// Fetch all products with search, filters, sorting, and exclude bought items
 export const getAllProducts = async (req, res) => {
   const { search, minPrice, maxPrice, size, condition, sort, category, page = 1, limit = 10 } = req.query;
 
   try {
     // Build the query object
-    const query = {};
+    const query = { buyer: null }; // Only fetch products where buyer is null (not bought)
 
     // Search by title or description
     if (search) {

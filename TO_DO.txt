@@ -1,16 +1,14 @@
 To Do:
 
 - Chat System with offer price functionality
-- (DONE) Seller dashboard with active listings
-- (DONE) Edit your own products
-- (DONE) Delete your own products
-- Option to buy items
 - Add items to favourites
-- Possibility to order products
+- Implement a new Database object for every transaction and improve Buy/Sell History
+- Ability to delete User from the Profile tab
+- Profile tab should contain more information like products sold, products purchased, ratings, profile picture
+- Improve footer pages
+
 - After you ADD a product you should get redirected to Dashboard page
 - On the Buy Page you should see how many products are listed based on your search (Eg. Showing 10 results)
-- Sizes on Add Product page should be a dropdown
-- Conditions on Add Product page should be a dropdown
 
 
 Bugs to fix:

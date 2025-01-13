@@ -51,18 +51,38 @@ const Dashboard = () => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {products.map((product) => (
-            <div key={product._id} className="bg-white p-4 rounded-lg shadow-md">
-              <img
-                src={product.images[0]}
-                alt={product.title}
-                className="w-full h-48 object-cover rounded-md mb-4"
-              />
-              <h3 className="text-xl font-semibold mb-2">{product.title}</h3>
-              <p className="text-gray-700 mb-2">{product.description}</p>
-              <p className="text-gray-900 font-bold mb-2">${product.price}</p>
+            <div
+              key={product._id}
+              className={`relative bg-white p-4 rounded-lg shadow-md flex flex-col justify-between ${
+                product.buyer ? 'opacity-75' : ''
+              }`}
+            >
+              {/* Product Image */}
+              <div className="relative">
+                <img
+                  src={product.images[0]}
+                  alt={product.title}
+                  className="w-full h-48 object-cover rounded-md mb-4"
+                />
+                {/* Sold Badge */}
+                {product.buyer && (
+                  <span className="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-md">
+                    SOLD
+                  </span>
+                )}
+              </div>
+
+              {/* Product Details */}
+              <div className="flex-grow mb-4">
+                <h3 className="text-xl font-semibold mb-2">{product.title}</h3>
+                <p className="text-gray-700 mb-2">{product.description}</p>
+                <p className="text-gray-900 font-bold">${product.price}</p>
+              </div>
+
+              {/* Edit Button */}
               <button
                 onClick={() => handleEditProduct(product._id)}
-                className="py-2 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+                className="mt-auto py-2 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
               >
                 Edit
               </button>

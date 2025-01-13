@@ -119,26 +119,34 @@ const AddProduct = () => {
             />
           </div>
           <div className="mb-4">
-            <input
-              type="text"
+            <select
               name="size"
-              placeholder="Size (e.g., M, L)"
               className="w-full p-2 border rounded-md focus:outline-none"
               value={formData.size}
               onChange={handleChange}
               required
-            />
+            >
+              <option value="">Select Size</option>
+              <option value="XS">XS</option>
+              <option value="S">S</option>
+              <option value="M">M</option>
+              <option value="L">L</option>
+              <option value="XL">XL</option>
+            </select>
           </div>
           <div className="mb-4">
-            <input
-              type="text"
+            <select
               name="condition"
-              placeholder="Condition (e.g., New, Used)"
               className="w-full p-2 border rounded-md focus:outline-none"
               value={formData.condition}
               onChange={handleChange}
               required
-            />
+            >
+              <option value="">Select Condition</option>
+              <option value="New">New</option>
+              <option value="Like New">Like New</option>
+              <option value="Used">Used</option>
+            </select>
           </div>
           <div className="mb-4">
             <select
