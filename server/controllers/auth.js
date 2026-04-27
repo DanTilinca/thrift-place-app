@@ -7,9 +7,17 @@ export const register = async (req, res) => {
   const { username, email, password } = req.body;
 
   try {
+    if (!process.env.JWT_SECRET) {
+      console.error('JWT_SECRET is missing in server environment variables.');
+      return res.status(500).json({ message: 'Server configuration error: JWT secret is missing' });
+    }
+
     // Check if the user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) return res.status(400).json({ message: 'User already exists' });
+
+    const existingUsername = await User.findOne({ username });
+    if (existingUsername) return res.status(400).json({ message: 'Username already exists' });
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 12);
@@ -24,6 +32,12 @@ export const register = async (req, res) => {
 
     res.status(201).json({ user: newUser, token });
   } catch (error) {
+    if (error?.code === 11000) {
+      const duplicateField = Object.keys(error.keyPattern || {})[0];
+      const duplicateLabel = duplicateField || 'field';
+      return res.status(400).json({ message: `${duplicateLabel} already exists` });
+    }
+    console.error('Registration error:', error);
     res.status(500).json({ message: 'Something went wrong' });
   }
 };
@@ -40,6 +54,11 @@ export const login = async (req, res) => {
   }
 
   try {
+    if (!process.env.JWT_SECRET) {
+      console.error('JWT_SECRET is missing in server environment variables.');
+      return res.status(500).json({ message: 'Server configuration error: JWT secret is missing' });
+    }
+
     const user = await User.findOne({ email });
     if (!user) return res.status(404).json({ message: 'User not found' });
 

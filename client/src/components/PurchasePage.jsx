@@ -74,11 +74,7 @@ const PurchasePage = () => {
         <h3 className="text-2xl font-bold mb-4">Product Details</h3>
         <div className="flex items-center gap-4">
           {/* Product Image */}
-          <img
-            src={product.images[0]}
-            alt={product.title}
-            className="w-24 h-24 object-cover rounded-lg border"
-          />
+          <img src={product.images[0]} alt={product.title} className="w-24 h-24 object-cover rounded-lg border" />
           {/* Product Details */}
           <div>
             <p className="text-gray-700 mb-2">
@@ -224,3 +220,4 @@ const PurchasePage = () => {
 };
 
 export default PurchasePage;
+

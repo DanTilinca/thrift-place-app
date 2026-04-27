@@ -74,11 +74,7 @@ const EditProduct = () => {
       <div className="flex flex-col md:flex-row gap-6 mb-6">
         <div className="flex-1">
           <div className="relative mb-4">
-            <img
-              src={selectedImage}
-              alt={product.title}
-              className="w-full h-96 object-cover rounded-lg"
-            />
+            <img src={selectedImage} alt={product.title} className="w-full h-96 object-cover rounded-lg" />
           </div>
           <div className="flex gap-2 overflow-x-auto">
             {product.images.map((image, index) => (
@@ -155,10 +151,7 @@ const EditProduct = () => {
           />
         </div>
 
-        <button
-          type="submit"
-          className="py-2 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-        >
+        <button type="submit" className="py-2 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
           Update Product
         </button>
         <button
@@ -174,3 +167,4 @@ const EditProduct = () => {
 };
 
 export default EditProduct;
+

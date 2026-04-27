@@ -34,9 +34,7 @@ const ProductDetails = () => {
   };
 
   const handlePrevImage = () => {
-    setSelectedImageIndex((prevIndex) =>
-      prevIndex === 0 ? product.images.length - 1 : prevIndex - 1
-    );
+    setSelectedImageIndex((prevIndex) => (prevIndex === 0 ? product.images.length - 1 : prevIndex - 1));
   };
 
   // Handle full-screen modal view
@@ -64,16 +62,10 @@ const ProductDetails = () => {
               className="w-full h-96 object-cover rounded-lg shadow-md cursor-pointer"
               onClick={openModal}
             />
-            <button
-              onClick={handlePrevImage}
-              className="absolute top-1/2 left-2 bg-white rounded-full p-2 shadow-md"
-            >
+            <button onClick={handlePrevImage} className="absolute top-1/2 left-2 bg-white rounded-full p-2 shadow-md">
               ◀
             </button>
-            <button
-              onClick={handleNextImage}
-              className="absolute top-1/2 right-2 bg-white rounded-full p-2 shadow-md"
-            >
+            <button onClick={handleNextImage} className="absolute top-1/2 right-2 bg-white rounded-full p-2 shadow-md">
               ▶
             </button>
           </div>
@@ -113,14 +105,10 @@ const ProductDetails = () => {
 
           {/* Action Buttons */}
           <div className="flex gap-4 mt-6">
-            <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
-              Add to Favorites
-            </button>
+            <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Add to Favorites</button>
             <button
               className={`px-4 py-2 rounded-lg transition ${
-                isOwnProduct
-                  ? 'bg-gray-400 text-white cursor-not-allowed'
-                  : 'bg-green-500 text-white hover:bg-green-600'
+                isOwnProduct ? 'bg-gray-400 text-white cursor-not-allowed' : 'bg-green-500 text-white hover:bg-green-600'
               }`}
               onClick={() => !isOwnProduct && navigate(`/purchase/${product._id}`)}
               disabled={isOwnProduct}
@@ -168,3 +156,4 @@ const ProductDetails = () => {
 };
 
 export default ProductDetails;
+

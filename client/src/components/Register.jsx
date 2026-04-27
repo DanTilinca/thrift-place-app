@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import axios from 'axios';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
+
 const Register = () => {
   const [formData, setFormData] = useState({ username: '', email: '', password: '' });
   const [error, setError] = useState('');
@@ -20,7 +22,7 @@ const Register = () => {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/register', formData, {
+      const response = await axios.post(`${API_BASE_URL}/auth/register`, formData, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -85,7 +87,10 @@ const Register = () => {
           </button>
         </form>
         <p className="text-center text-sm mt-4">
-          Already have an account? <a href="/login" className="text-blue-500">Log In</a>
+          Already have an account?{' '}
+          <a href="/login" className="text-blue-500">
+            Log In
+          </a>
         </p>
       </div>
     </div>
@@ -93,3 +98,4 @@ const Register = () => {
 };
 
 export default Register;
+

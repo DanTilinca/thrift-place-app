@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import axios from 'axios';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
+
 const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
@@ -18,12 +20,12 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-  
+
     console.log('Sending login request with:', formData);
-  
+
     try {
       const response = await axios.post(
-        'http://localhost:5000/api/auth/login',
+        `${API_BASE_URL}/auth/login`,
         { email: formData.email, password: formData.password },
         {
           headers: {
@@ -31,7 +33,7 @@ const Login = () => {
           },
         }
       );
-  
+
       console.log('Login response:', response.data);
       login(response.data.user, response.data.token);
       alert('Login successful!');
@@ -42,7 +44,7 @@ const Login = () => {
       console.error('Login error:', error.response?.data || error.message);
       setError(error.response?.data?.message || 'An error occurred. Please try again.');
     }
-  };  
+  };
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
@@ -80,7 +82,10 @@ const Login = () => {
           </button>
         </form>
         <p className="text-center text-sm mt-4">
-          Don't have an account? <a href="/register" className="text-blue-500">Register</a>
+          Don't have an account?{' '}
+          <a href="/register" className="text-blue-500">
+            Register
+          </a>
         </p>
       </div>
     </div>
@@ -88,3 +93,4 @@ const Login = () => {
 };
 
 export default Login;
+

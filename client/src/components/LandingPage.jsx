@@ -27,8 +27,8 @@ const LandingPage = () => {
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-2xl font-bold mb-4">Sell Your Clothes</h2>
           <p className="text-gray-700 mb-6">
-            Got clothes you no longer wear? List them on Thrift Place and start earning money
-            today. It’s easy, fast, and secure!
+            Got clothes you no longer wear? List them on Thrift Place and start earning money today.
+            It’s easy, fast, and secure!
           </p>
           <button
             onClick={() => navigate('/dashboard')}
@@ -84,7 +84,9 @@ const LandingPage = () => {
       {/* Promotional Banner */}
       <div className="bg-blue-600 text-white py-10 text-center">
         <h2 className="text-3xl font-bold mb-4">Seasonal Sale: Up to 50% Off!</h2>
-        <p className="text-lg mb-6">Don’t miss out on our biggest sale of the year. Shop now and save big!</p>
+        <p className="text-lg mb-6">
+          Don’t miss out on our biggest sale of the year. Shop now and save big!
+        </p>
         <button
           onClick={() => navigate('/products')}
           className="py-2 px-6 bg-white text-blue-600 rounded-full font-semibold hover:bg-gray-200 transition"
@@ -97,3 +99,4 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
+

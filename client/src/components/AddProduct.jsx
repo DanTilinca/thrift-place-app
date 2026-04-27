@@ -33,13 +33,10 @@ const AddProduct = () => {
       data.append('upload_preset', 'thriftplace');
 
       try {
-        const response = await fetch(
-          'https://api.cloudinary.com/v1_1/dtvjxmhhr/image/upload',
-          {
-            method: 'POST',
-            body: data,
-          }
-        );
+        const response = await fetch('https://api.cloudinary.com/v1_1/dtvjxmhhr/image/upload', {
+          method: 'POST',
+          body: data,
+        });
         const result = await response.json();
         uploadedImages.push(result.secure_url);
         imagePreviews.push(URL.createObjectURL(file));
@@ -202,3 +199,4 @@ const AddProduct = () => {
 };
 
 export default AddProduct;
+

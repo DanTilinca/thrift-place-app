@@ -9,8 +9,12 @@ const Profile = () => {
       <h2 className="text-3xl font-bold mb-4">Profile</h2>
       {user ? (
         <div>
-          <p><strong>Username:</strong> {user.username}</p>
-          <p><strong>Email:</strong> {user.email}</p>
+          <p>
+            <strong>Username:</strong> {user.username}
+          </p>
+          <p>
+            <strong>Email:</strong> {user.email}
+          </p>
         </div>
       ) : (
         <p>You need to log in to see your profile.</p>
@@ -20,3 +24,4 @@ const Profile = () => {
 };
 
 export default Profile;
+
