@@ -14,14 +14,13 @@ const AddProduct = () => {
   const [images, setImages] = useState([]);
   const [previews, setPreviews] = useState([]);
   const [uploading, setUploading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const { user } = useContext(AuthContext);
 
-  // Handle form input changes
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Handle image uploads
   const handleImageUpload = async (files) => {
     setUploading(true);
     const uploadedImages = [];
@@ -51,7 +50,6 @@ const AddProduct = () => {
     setUploading(false);
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -67,6 +65,7 @@ const AddProduct = () => {
     };
 
     try {
+      setSubmitting(true);
       await createProduct(productData);
       alert('Product added successfully!');
       setFormData({ title: '', description: '', price: '', size: '', condition: '', category: '' });
@@ -75,126 +74,151 @@ const AddProduct = () => {
     } catch (error) {
       console.error('Error adding product:', error);
       alert('Failed to add product.');
+    } finally {
+      setSubmitting(false);
     }
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
-      <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold mb-6 text-center">Add Product</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <input
-              type="text"
-              name="title"
-              placeholder="Product Title"
-              className="w-full p-2 border rounded-md focus:outline-none"
-              value={formData.title}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <textarea
-              name="description"
-              placeholder="Product Description"
-              className="w-full p-2 border rounded-md focus:outline-none"
-              value={formData.description}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <input
-              type="number"
-              name="price"
-              placeholder="Price ($)"
-              className="w-full p-2 border rounded-md focus:outline-none"
-              value={formData.price}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <select
-              name="size"
-              className="w-full p-2 border rounded-md focus:outline-none"
-              value={formData.size}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Select Size</option>
-              <option value="XS">XS</option>
-              <option value="S">S</option>
-              <option value="M">M</option>
-              <option value="L">L</option>
-              <option value="XL">XL</option>
-            </select>
-          </div>
-          <div className="mb-4">
-            <select
-              name="condition"
-              className="w-full p-2 border rounded-md focus:outline-none"
-              value={formData.condition}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Select Condition</option>
-              <option value="New">New</option>
-              <option value="Like New">Like New</option>
-              <option value="Used">Used</option>
-            </select>
-          </div>
-          <div className="mb-4">
-            <select
-              name="category"
-              className="w-full p-2 border rounded-md focus:outline-none"
-              value={formData.category}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Select Category</option>
-              <option value="Dress">Dress</option>
-              <option value="Skirt">Skirt</option>
-              <option value="Shirt">Shirt</option>
-              <option value="Tshirt">Tshirt</option>
-              <option value="Jacket">Jacket</option>
-              <option value="Pants">Pants</option>
-              <option value="Shorts">Shorts</option>
-              <option value="Coat">Coat</option>
-              <option value="Sweater">Sweater</option>
-              <option value="Blouse">Blouse</option>
-            </select>
-          </div>
-          <div className="mb-4">
-            <input
-              type="file"
-              multiple
-              accept="image/*"
-              onChange={(e) => handleImageUpload(e.target.files)}
-              className="w-full"
-            />
-            <div className="flex flex-wrap gap-2 mt-2">
-              {previews.map((src, index) => (
-                <img
-                  key={index}
-                  src={src}
-                  alt={`Preview ${index + 1}`}
-                  className="w-20 h-20 object-cover rounded-md"
-                />
-              ))}
+    <main className="min-h-screen bg-base-200/60">
+      <div className="mx-auto w-full max-w-5xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
+        <section className="mb-8 rounded-3xl border border-base-300/70 bg-base-100 p-6 shadow-sm sm:p-8">
+          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-base-content/50">Seller tools</p>
+          <h1 className="text-3xl font-extrabold tracking-tight text-base-content sm:text-4xl">Add product</h1>
+          <p className="mt-2 text-sm text-base-content/65 sm:text-base">
+            Create a premium listing with clear details and high-quality photos.
+          </p>
+        </section>
+
+        <form onSubmit={handleSubmit} className="rounded-3xl border border-base-300/70 bg-base-100 p-6 shadow-sm sm:p-7">
+          <h2 className="mb-1 text-xl font-bold tracking-tight text-base-content sm:text-2xl">Listing information</h2>
+          <p className="mb-6 text-sm text-base-content/60">Fill out every field to publish your item.</p>
+
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div className="sm:col-span-2">
+              <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.14em] text-base-content/55">Title</label>
+              <input
+                type="text"
+                name="title"
+                placeholder="Vintage denim jacket"
+                className="input input-bordered w-full rounded-xl border-base-300/80 bg-base-100 text-sm shadow-sm transition-all duration-300 focus:border-primary/40 focus:ring-2 focus:ring-primary/20"
+                value={formData.title}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="sm:col-span-2">
+              <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.14em] text-base-content/55">Description</label>
+              <textarea
+                name="description"
+                placeholder="Describe fit, material, and any signs of wear."
+                className="textarea textarea-bordered min-h-[120px] w-full rounded-xl border-base-300/80 bg-base-100 text-sm shadow-sm transition-all duration-300 focus:border-primary/40 focus:ring-2 focus:ring-primary/20"
+                value={formData.description}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div>
+              <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.14em] text-base-content/55">Price ($)</label>
+              <input
+                type="number"
+                name="price"
+                placeholder="65"
+                className="input input-bordered w-full rounded-xl border-base-300/80 bg-base-100 text-sm shadow-sm transition-all duration-300 focus:border-primary/40 focus:ring-2 focus:ring-primary/20"
+                value={formData.price}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div>
+              <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.14em] text-base-content/55">Size</label>
+              <select
+                name="size"
+                className="select select-bordered w-full rounded-xl border-base-300/80 bg-base-100 text-sm shadow-sm transition-all duration-300 focus:border-primary/40 focus:ring-2 focus:ring-primary/20"
+                value={formData.size}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Select size</option>
+                <option value="XS">XS</option>
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+                <option value="XL">XL</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.14em] text-base-content/55">Condition</label>
+              <select
+                name="condition"
+                className="select select-bordered w-full rounded-xl border-base-300/80 bg-base-100 text-sm shadow-sm transition-all duration-300 focus:border-primary/40 focus:ring-2 focus:ring-primary/20"
+                value={formData.condition}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Select condition</option>
+                <option value="New">New</option>
+                <option value="Like New">Like new</option>
+                <option value="Used">Used</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.14em] text-base-content/55">Category</label>
+              <select
+                name="category"
+                className="select select-bordered w-full rounded-xl border-base-300/80 bg-base-100 text-sm shadow-sm transition-all duration-300 focus:border-primary/40 focus:ring-2 focus:ring-primary/20"
+                value={formData.category}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Select category</option>
+                <option value="Dress">Dress</option>
+                <option value="Skirt">Skirt</option>
+                <option value="Shirt">Shirt</option>
+                <option value="Tshirt">Tshirt</option>
+                <option value="Jacket">Jacket</option>
+                <option value="Pants">Pants</option>
+                <option value="Shorts">Shorts</option>
+                <option value="Coat">Coat</option>
+                <option value="Sweater">Sweater</option>
+                <option value="Blouse">Blouse</option>
+              </select>
+            </div>
+
+            <div className="sm:col-span-2">
+              <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.14em] text-base-content/55">Images</label>
+              <input
+                type="file"
+                multiple
+                accept="image/*"
+                onChange={(e) => handleImageUpload(e.target.files)}
+                className="file-input file-input-bordered w-full rounded-xl border-base-300/80 bg-base-100 text-sm shadow-sm"
+              />
+              <div className="mt-3 grid grid-cols-3 gap-3 sm:grid-cols-5">
+                {previews.map((src, index) => (
+                  <div key={index} className="overflow-hidden rounded-xl border border-base-300/70 bg-base-100 shadow-sm">
+                    <img src={src} alt={`Preview ${index + 1}`} className="h-20 w-full object-cover" />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
+
           <button
             type="submit"
-            className="w-full py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-            disabled={uploading}
+            className="btn btn-primary mt-6 w-full rounded-xl border-none text-sm font-semibold uppercase tracking-[0.08em] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md active:scale-95 disabled:cursor-not-allowed disabled:opacity-70"
+            disabled={uploading || submitting}
           >
-            {uploading ? 'Uploading Images...' : 'Add Product'}
+            {uploading ? 'Uploading images...' : submitting ? 'Publishing...' : 'Add product'}
           </button>
         </form>
       </div>
-    </div>
+    </main>
   );
 };
 

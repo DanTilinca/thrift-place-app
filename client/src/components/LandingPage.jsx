@@ -1,4 +1,3 @@
-// client/src/components/LandingPage.js
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -6,95 +5,123 @@ const LandingPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="bg-gray-100 min-h-screen">
-      {/* Hero Section */}
-      <div className="bg-blue-500 text-white p-10 text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Thrift Place</h1>
-        <p className="text-lg mb-6">
-          Discover amazing deals on second-hand clothes or start selling your own today!
-        </p>
-        <button
-          onClick={() => navigate('/products')}
-          className="py-2 px-6 bg-white text-blue-500 rounded-full font-semibold hover:bg-gray-200 transition"
-        >
-          Explore Now
-        </button>
-      </div>
+    <main className="min-h-screen bg-base-200/60">
+      <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
+        <section className="relative overflow-hidden rounded-3xl border border-base-300/70 bg-base-100 p-7 shadow-sm sm:p-10">
+          <div className="absolute right-0 top-0 h-40 w-40 rounded-full bg-primary/10 blur-3xl" />
+          <div className="absolute bottom-0 left-0 h-32 w-32 rounded-full bg-secondary/10 blur-3xl" />
+          <div className="relative grid grid-cols-1 gap-8 lg:grid-cols-2 lg:items-center">
+            <div>
+              <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-base-content/50">Thrift Place</p>
+              <h1 className="text-4xl font-extrabold tracking-tight text-base-content sm:text-5xl">
+                Buy better pieces.
+                <br />
+                Sell what you no longer wear.
+              </h1>
+              <p className="mt-4 max-w-xl text-sm leading-relaxed text-base-content/65 sm:text-base">
+                A premium marketplace for pre-loved fashion. Discover curated finds, give clothes a second life, and keep style circular.
+              </p>
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+                <button
+                  onClick={() => navigate('/products')}
+                  className="btn btn-primary rounded-xl px-7 text-sm font-semibold uppercase tracking-[0.08em] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md active:scale-95"
+                >
+                  Explore marketplace
+                </button>
+                <button
+                  onClick={() => navigate('/dashboard')}
+                  className="btn btn-ghost rounded-xl border border-base-300/80 px-7 text-sm font-semibold uppercase tracking-[0.08em] transition-all duration-300 hover:-translate-y-0.5 hover:bg-base-200 hover:shadow-md active:scale-95"
+                >
+                  Start selling
+                </button>
+              </div>
+            </div>
 
-      {/* Features Section */}
-      <div className="container mx-auto p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* Sell Clothes Feature */}
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-2xl font-bold mb-4">Sell Your Clothes</h2>
-          <p className="text-gray-700 mb-6">
-            Got clothes you no longer wear? List them on Thrift Place and start earning money today.
-            It’s easy, fast, and secure!
-          </p>
-          <button
-            onClick={() => navigate('/dashboard')}
-            className="py-2 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
-          >
-            Start Selling
-          </button>
-        </div>
+            <div className="grid grid-cols-2 gap-3 sm:gap-4">
+              <div className="rounded-2xl bg-base-200/60 p-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-base-content/50">Active listings</p>
+                <p className="mt-2 text-3xl font-extrabold tracking-tight text-base-content">1.2K+</p>
+              </div>
+              <div className="rounded-2xl bg-base-200/60 p-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-base-content/50">Happy members</p>
+                <p className="mt-2 text-3xl font-extrabold tracking-tight text-base-content">8K+</p>
+              </div>
+              <div className="rounded-2xl bg-base-200/60 p-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-base-content/50">Avg. sell time</p>
+                <p className="mt-2 text-3xl font-extrabold tracking-tight text-base-content">3 days</p>
+              </div>
+              <div className="rounded-2xl bg-base-200/60 p-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-base-content/50">Secure checkout</p>
+                <p className="mt-2 text-3xl font-extrabold tracking-tight text-base-content">100%</p>
+              </div>
+            </div>
+          </div>
+        </section>
 
-        {/* Buy Clothes Feature */}
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-2xl font-bold mb-4">Buy Quality Clothes</h2>
-          <p className="text-gray-700 mb-6">
-            Browse our vast collection of second-hand clothes at unbeatable prices. Find unique
-            pieces and great deals every day.
+        <section className="mt-6 grid grid-cols-1 gap-5 lg:grid-cols-3">
+          <article className="rounded-2xl border border-base-300/70 bg-base-100 p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+            <h2 className="text-xl font-bold tracking-tight text-base-content">Curated quality</h2>
+            <p className="mt-2 text-sm leading-relaxed text-base-content/65">
+              Shop modern essentials, statement pieces, and timeless staples from trusted sellers.
+            </p>
+          </article>
+          <article className="rounded-2xl border border-base-300/70 bg-base-100 p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+            <h2 className="text-xl font-bold tracking-tight text-base-content">Sell in minutes</h2>
+            <p className="mt-2 text-sm leading-relaxed text-base-content/65">
+              Upload photos, set your price, and publish a premium listing with a smooth workflow.
+            </p>
+          </article>
+          <article className="rounded-2xl border border-base-300/70 bg-base-100 p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+            <h2 className="text-xl font-bold tracking-tight text-base-content">Built on trust</h2>
+            <p className="mt-2 text-sm leading-relaxed text-base-content/65">
+              Transparent product details and verified user accounts make buying and selling safer.
+            </p>
+          </article>
+        </section>
+
+        <section className="mt-6 rounded-3xl border border-base-300/70 bg-base-100 p-6 shadow-sm sm:p-8">
+          <div className="mb-5 flex items-end justify-between gap-4">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-base-content/50">Community feedback</p>
+              <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-base-content sm:text-3xl">Loved by buyers and sellers</h2>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+            <article className="rounded-2xl bg-base-200/60 p-5">
+              <p className="text-sm leading-relaxed text-base-content/70">
+                "I finally found pieces that feel unique without paying retail. The quality is consistently better than expected."
+              </p>
+              <p className="mt-4 text-sm font-semibold text-base-content">Mila R.</p>
+            </article>
+            <article className="rounded-2xl bg-base-200/60 p-5">
+              <p className="text-sm leading-relaxed text-base-content/70">
+                "Listing took less than ten minutes. My jacket sold in two days, and the buyer experience was smooth."
+              </p>
+              <p className="mt-4 text-sm font-semibold text-base-content">Alex T.</p>
+            </article>
+            <article className="rounded-2xl bg-base-200/60 p-5">
+              <p className="text-sm leading-relaxed text-base-content/70">
+                "The app feels clean and premium. I use it weekly to refresh my wardrobe sustainably."
+              </p>
+              <p className="mt-4 text-sm font-semibold text-base-content">Nora V.</p>
+            </article>
+          </div>
+        </section>
+
+        <section className="mt-6 rounded-3xl border border-primary/20 bg-primary/10 p-7 text-center shadow-sm sm:p-9">
+          <h2 className="text-2xl font-extrabold tracking-tight text-base-content sm:text-3xl">Ready to find your next favorite fit?</h2>
+          <p className="mx-auto mt-3 max-w-2xl text-sm text-base-content/70 sm:text-base">
+            Explore fresh drops daily and give great clothes a second story.
           </p>
           <button
             onClick={() => navigate('/products')}
-            className="py-2 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+            className="btn btn-primary mt-6 rounded-xl px-8 text-sm font-semibold uppercase tracking-[0.08em] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md active:scale-95"
           >
-            Shop Now
+            Shop now
           </button>
-        </div>
+        </section>
       </div>
-
-      {/* Testimonial Section */}
-      <div className="bg-gray-200 py-10">
-        <h2 className="text-3xl font-bold text-center mb-8">What Our Users Say</h2>
-        <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <p className="text-gray-700 mb-4">
-              "I found so many great deals on Thrift Place! It’s now my go-to place for shopping
-              clothes online."
-            </p>
-            <p className="font-semibold">- Jane Doe</p>
-          </div>
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <p className="text-gray-700 mb-4">
-              "Selling clothes on Thrift Place was super easy. I made extra cash and cleared out my
-              closet!"
-            </p>
-            <p className="font-semibold">- John Smith</p>
-          </div>
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <p className="text-gray-700 mb-4">
-              "Amazing variety and great prices. I love shopping here and finding unique pieces."
-            </p>
-            <p className="font-semibold">- Emma Wilson</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Promotional Banner */}
-      <div className="bg-blue-600 text-white py-10 text-center">
-        <h2 className="text-3xl font-bold mb-4">Seasonal Sale: Up to 50% Off!</h2>
-        <p className="text-lg mb-6">
-          Don’t miss out on our biggest sale of the year. Shop now and save big!
-        </p>
-        <button
-          onClick={() => navigate('/products')}
-          className="py-2 px-6 bg-white text-blue-600 rounded-full font-semibold hover:bg-gray-200 transition"
-        >
-          Shop the Sale
-        </button>
-      </div>
-    </div>
+    </main>
   );
 };
 

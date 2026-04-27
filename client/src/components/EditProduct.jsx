@@ -8,10 +8,15 @@ const EditProduct = () => {
   const [formData, setFormData] = useState({ title: '', description: '', price: '' });
   const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [error, setError] = useState('');
 
-  // Fetch product details
   useEffect(() => {
     const getProductDetails = async () => {
+      setIsLoading(true);
+      setError('');
       try {
         const response = await fetchProductById(id);
         setProduct(response.data);
@@ -25,144 +30,221 @@ const EditProduct = () => {
         }
       } catch (error) {
         console.error('Error fetching product details:', error);
+        setError('Unable to load product details.');
+      } finally {
+        setIsLoading(false);
       }
     };
     getProductDetails();
   }, [id]);
 
-  // Handle input changes
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setIsSubmitting(true);
       await updateProduct(id, formData);
       alert('Product updated successfully!');
       navigate('/dashboard');
     } catch (error) {
       console.error('Error updating product:', error);
       alert('Failed to update product.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
-  // Handle delete product
   const handleDelete = async () => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
+        setIsDeleting(true);
         await deleteProduct(id);
         alert('Product deleted successfully!');
         navigate('/dashboard');
       } catch (error) {
         console.error('Error deleting product:', error);
         alert('Failed to delete product.');
+      } finally {
+        setIsDeleting(false);
       }
     }
   };
 
-  if (!product) {
-    return <div className="text-center py-20">Loading product details...</div>;
+  if (isLoading) {
+    return (
+      <main className="min-h-screen bg-base-200/60">
+        <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            <div className="rounded-3xl border border-base-300/70 bg-base-100 p-4 shadow-sm">
+              <div className="skeleton h-[26rem] w-full rounded-2xl" />
+              <div className="mt-4 flex gap-3">
+                <div className="skeleton h-20 w-20 rounded-xl" />
+                <div className="skeleton h-20 w-20 rounded-xl" />
+                <div className="skeleton h-20 w-20 rounded-xl" />
+              </div>
+            </div>
+            <div className="rounded-3xl border border-base-300/70 bg-base-100 p-6 shadow-sm">
+              <div className="skeleton mb-3 h-5 w-1/2" />
+              <div className="skeleton mb-3 h-11 w-full rounded-xl" />
+              <div className="skeleton mb-3 h-28 w-full rounded-xl" />
+              <div className="skeleton h-11 w-full rounded-xl" />
+            </div>
+          </div>
+        </div>
+      </main>
+    );
   }
 
+  if (error || !product) {
+    return (
+      <main className="min-h-screen bg-base-200/60">
+        <div className="mx-auto w-full max-w-3xl px-4 py-16 text-center sm:px-6">
+          <div className="rounded-3xl border border-error/20 bg-base-100 p-8 shadow-sm">
+            <h2 className="text-2xl font-bold tracking-tight text-base-content">Could not load product</h2>
+            <p className="mt-2 text-sm text-base-content/60">{error || 'Please try again in a moment.'}</p>
+            <button
+              className="btn btn-primary mt-6 rounded-xl px-6 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md active:scale-95"
+              onClick={() => navigate('/dashboard')}
+            >
+              Back to dashboard
+            </button>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  const imageList = product.images?.length ? product.images : ['https://placehold.co/800x1000?text=No+Image'];
+
   return (
-    <div className="container mx-auto p-6">
-      <h2 className="text-4xl font-bold mb-6">Edit Product</h2>
+    <main className="min-h-screen bg-base-200/60">
+      <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
+        <section className="mb-8 rounded-3xl border border-base-300/70 bg-base-100 p-6 shadow-sm sm:p-8">
+          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-base-content/50">Seller tools</p>
+          <h1 className="text-3xl font-extrabold tracking-tight text-base-content sm:text-4xl">Edit product</h1>
+          <p className="mt-2 text-sm text-base-content/65 sm:text-base">
+            Keep your listing fresh with cleaner details, better copy, and accurate pricing.
+          </p>
+        </section>
 
-      {/* Image Gallery */}
-      <div className="flex flex-col md:flex-row gap-6 mb-6">
-        <div className="flex-1">
-          <div className="relative mb-4">
-            <img src={selectedImage} alt={product.title} className="w-full h-96 object-cover rounded-lg" />
-          </div>
-          <div className="flex gap-2 overflow-x-auto">
-            {product.images.map((image, index) => (
+        <section className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <article className="rounded-3xl border border-base-300/70 bg-base-100 p-4 shadow-sm sm:p-5">
+            <div className="overflow-hidden rounded-2xl">
               <img
-                key={index}
-                src={image}
-                alt={`Thumbnail ${index + 1}`}
-                className={`w-20 h-20 object-cover rounded-lg cursor-pointer ${
-                  selectedImage === image ? 'border-2 border-blue-500' : ''
-                }`}
-                onClick={() => setSelectedImage(image)}
+                src={selectedImage || imageList[0]}
+                alt={product.title}
+                className="h-[26rem] w-full object-cover transition-transform duration-500 hover:scale-[1.02]"
               />
-            ))}
+            </div>
+            <div className="mt-4 flex gap-3 overflow-x-auto pb-1">
+              {imageList.map((image, index) => (
+                <button
+                  key={index}
+                  className={`h-20 w-20 shrink-0 overflow-hidden rounded-xl border transition-all duration-300 ${
+                    selectedImage === image
+                      ? 'border-primary shadow-sm'
+                      : 'border-base-300/80 hover:-translate-y-0.5 hover:border-primary/40'
+                  }`}
+                  onClick={() => setSelectedImage(image)}
+                >
+                  <img src={image} alt={`Thumbnail ${index + 1}`} className="h-full w-full object-cover" />
+                </button>
+              ))}
+            </div>
+          </article>
+
+          <article className="rounded-3xl border border-base-300/70 bg-base-100 p-6 shadow-sm sm:p-7">
+            <h2 className="text-xl font-bold tracking-tight text-base-content sm:text-2xl">Listing overview</h2>
+            <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <div className="rounded-xl bg-base-200/60 p-3">
+                <p className="text-xs font-semibold uppercase tracking-[0.12em] text-base-content/50">Size</p>
+                <p className="mt-1 text-sm font-semibold text-base-content">{product.size || 'Not specified'}</p>
+              </div>
+              <div className="rounded-xl bg-base-200/60 p-3">
+                <p className="text-xs font-semibold uppercase tracking-[0.12em] text-base-content/50">Condition</p>
+                <p className="mt-1 text-sm font-semibold text-base-content">{product.condition || 'Not specified'}</p>
+              </div>
+              <div className="rounded-xl bg-base-200/60 p-3">
+                <p className="text-xs font-semibold uppercase tracking-[0.12em] text-base-content/50">Category</p>
+                <p className="mt-1 text-sm font-semibold text-base-content">{product.category || 'Fashion'}</p>
+              </div>
+              <div className="rounded-xl bg-base-200/60 p-3">
+                <p className="text-xs font-semibold uppercase tracking-[0.12em] text-base-content/50">Created at</p>
+                <p className="mt-1 text-sm font-semibold text-base-content">
+                  {product.createdAt ? new Date(product.createdAt).toLocaleDateString() : 'Unknown'}
+                </p>
+              </div>
+            </div>
+            <p className="mt-4 text-sm text-base-content/60">
+              Editing supports title, description, and price. Size/condition/category remain unchanged in this form.
+            </p>
+          </article>
+        </section>
+
+        <form onSubmit={handleSubmit} className="mt-6 rounded-3xl border border-base-300/70 bg-base-100 p-6 shadow-sm sm:p-7">
+          <h2 className="mb-1 text-xl font-bold tracking-tight text-base-content sm:text-2xl">Edit listing information</h2>
+          <p className="mb-6 text-sm text-base-content/60">Refine your content to attract more buyers.</p>
+
+          <div className="space-y-4">
+            <div>
+              <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.14em] text-base-content/55">Title</label>
+              <input
+                type="text"
+                name="title"
+                value={formData.title}
+                onChange={handleChange}
+                className="input input-bordered w-full rounded-xl border-base-300/80 bg-base-100 text-sm shadow-sm transition-all duration-300 focus:border-primary/40 focus:ring-2 focus:ring-primary/20"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.14em] text-base-content/55">Description</label>
+              <textarea
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+                className="textarea textarea-bordered min-h-[120px] w-full rounded-xl border-base-300/80 bg-base-100 text-sm shadow-sm transition-all duration-300 focus:border-primary/40 focus:ring-2 focus:ring-primary/20"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.14em] text-base-content/55">Price ($)</label>
+              <input
+                type="number"
+                name="price"
+                value={formData.price}
+                onChange={handleChange}
+                className="input input-bordered w-full rounded-xl border-base-300/80 bg-base-100 text-sm shadow-sm transition-all duration-300 focus:border-primary/40 focus:ring-2 focus:ring-primary/20"
+                required
+              />
+            </div>
           </div>
-        </div>
 
-        {/* Product Information */}
-        <div className="flex-1 bg-white p-6 rounded-lg shadow-md">
-          <h3 className="text-2xl font-bold mb-4">Product Details</h3>
-          <p className="text-gray-700 mb-2">
-            <strong>Title:</strong> {product.title}
-          </p>
-          <p className="text-gray-700 mb-2">
-            <strong>Size:</strong> {product.size}
-          </p>
-          <p className="text-gray-700 mb-2">
-            <strong>Condition:</strong> {product.condition}
-          </p>
-          <p className="text-gray-700 mb-2">
-            <strong>Category:</strong> {product.category}
-          </p>
-          <p className="text-gray-700 mb-2">
-            <strong>Created At:</strong> {new Date(product.createdAt).toLocaleDateString()}
-          </p>
-        </div>
+          <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+            <button
+              type="submit"
+              disabled={isSubmitting || isDeleting}
+              className="btn btn-primary rounded-xl px-6 text-sm font-semibold uppercase tracking-[0.08em] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md active:scale-95 disabled:cursor-not-allowed disabled:opacity-70"
+            >
+              {isSubmitting ? 'Updating...' : 'Update product'}
+            </button>
+            <button
+              type="button"
+              onClick={handleDelete}
+              disabled={isDeleting || isSubmitting}
+              className="btn btn-error rounded-xl px-6 text-sm font-semibold uppercase tracking-[0.08em] text-error-content transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md active:scale-95 disabled:cursor-not-allowed disabled:opacity-70"
+            >
+              {isDeleting ? 'Deleting...' : 'Delete product'}
+            </button>
+          </div>
+        </form>
       </div>
-
-      {/* Edit Form */}
-      <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md">
-        <h3 className="text-2xl font-bold mb-4">Edit Product Information</h3>
-
-        <div className="mb-4">
-          <label className="block mb-2">Title</label>
-          <input
-            type="text"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            className="w-full p-2 border rounded-md"
-            required
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block mb-2">Description</label>
-          <textarea
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            className="w-full p-2 border rounded-md"
-            required
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block mb-2">Price ($)</label>
-          <input
-            type="number"
-            name="price"
-            value={formData.price}
-            onChange={handleChange}
-            className="w-full p-2 border rounded-md"
-            required
-          />
-        </div>
-
-        <button type="submit" className="py-2 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
-          Update Product
-        </button>
-        <button
-          type="button"
-          onClick={handleDelete}
-          className="py-2 px-4 bg-red-500 text-white rounded-lg hover:bg-red-600 ml-4"
-        >
-          Delete Product
-        </button>
-      </form>
-    </div>
+    </main>
   );
 };
 
