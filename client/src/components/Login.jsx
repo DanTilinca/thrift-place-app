@@ -23,7 +23,7 @@ const Login = () => {
     try {
       setIsSubmitting(true);
       const response = await axios.post(
-        `${API_BASE_URL}/auth/login`,
+        `${API_BASE_URL}/users/signin`,
         { email: formData.email, password: formData.password },
         {
           headers: {
@@ -33,7 +33,6 @@ const Login = () => {
       );
 
       login(response.data.user, response.data.token);
-      alert('Login successful!');
       navigate('/');
     } catch (error) {
       console.error('Login error:', error.response?.data || error.message);

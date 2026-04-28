@@ -213,19 +213,19 @@ const BuyPage = () => {
           <p className="text-sm text-base-content/65">
             <span className="font-semibold text-base-content">Page {page}</span> of {totalPages}
           </p>
-          <div className="join">
+          <div className="join items-center">
             <button
-              className="join-item btn btn-ghost rounded-xl px-5 text-xs font-semibold uppercase tracking-wide transition-all duration-300 hover:-translate-y-0.5 hover:bg-base-200 hover:shadow-md active:scale-95"
+              className="join-item btn h-10 min-h-10 w-28 rounded-xl border border-base-300/80 bg-base-100 px-4 text-xs font-semibold uppercase tracking-wide text-base-content shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-base-400 hover:bg-base-200 hover:shadow-md active:scale-95 disabled:border-base-300/60 disabled:bg-base-100 disabled:text-base-content/40 disabled:shadow-none"
               onClick={() => handlePageChange(page - 1)}
               disabled={page === 1 || isLoading}
             >
               Previous
             </button>
-            <button className="join-item btn btn-disabled rounded-xl px-5 text-xs font-semibold uppercase tracking-wide">
+            <span className="join-item inline-flex h-9 min-w-12 items-center justify-center rounded-xl border border-base-300/80 bg-base-200/60 px-3 text-sm font-semibold tabular-nums text-base-content shadow-sm">
               {page}
-            </button>
+            </span>
             <button
-              className="join-item btn btn-primary rounded-xl px-5 text-xs font-semibold uppercase tracking-wide text-primary-content transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md active:scale-95"
+              className="join-item btn btn-primary h-10 min-h-10 w-28 rounded-xl px-4 text-xs font-semibold uppercase tracking-wide text-primary-content transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md active:scale-95"
               onClick={() => handlePageChange(page + 1)}
               disabled={page >= totalPages || isLoading}
             >

@@ -22,14 +22,13 @@ const Register = () => {
 
     try {
       setIsSubmitting(true);
-      const response = await axios.post(`${API_BASE_URL}/auth/register`, formData, {
+      const response = await axios.post(`${API_BASE_URL}/users/signup`, formData, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
       login(response.data.user, response.data.token);
-      alert('Registration successful!');
       navigate('/');
     } catch (error) {
       console.error('Registration error:', error.response?.data || error.message);

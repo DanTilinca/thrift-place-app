@@ -38,6 +38,13 @@ const Header = () => {
     }
   };
 
+  const userInitial = (
+    user?.username?.trim()?.charAt(0) ||
+    user?.name?.trim()?.charAt(0) ||
+    user?.email?.trim()?.charAt(0) ||
+    'U'
+  ).toUpperCase();
+
   return (
     <header className="sticky top-0 z-40 border-b border-base-300/70 bg-base-100/90 backdrop-blur">
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
@@ -88,7 +95,7 @@ const Header = () => {
                 onClick={toggleDropdown}
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-base-300 bg-base-100 text-sm font-bold text-base-content shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md active:scale-95"
               >
-                {user.username.charAt(0).toUpperCase()}
+                {userInitial}
               </button>
 
               {isDropdownOpen && (

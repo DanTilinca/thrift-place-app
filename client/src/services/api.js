@@ -3,8 +3,8 @@ import axios from 'axios';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
 const API = axios.create({ baseURL: API_BASE_URL });
 
-export const registerUser = (userData) => API.post('/auth/register', userData);
-export const loginUser = (userData) => API.post('/auth/login', userData);
+export const registerUser = (userData) => API.post('/users/signup', userData);
+export const loginUser = (userData) => API.post('/users/signin', userData);
 export const createProduct = (productData) => API.post('/products', productData);
 export const fetchProducts = (params) => API.get('/products', { params });
 export const fetchProductById = (id) => API.get(`/products/${id}`);
